@@ -3,6 +3,7 @@ use std::{env, error, ffi, process};
 
 pub mod cargo_metadata;
 pub mod features_finder;
+pub mod rules;
 pub mod test_runner;
 mod types;
 
@@ -132,7 +133,7 @@ fn test_all_features_for_package(
     feature_flags_last: bool,
     cargo_args: &[String],
 ) -> Result<TestOutcome, Box<dyn error::Error>> {
-    let feature_sets = crate::features_finder::fetch_feature_sets(package);
+    let feature_sets = crate::features_finder::fetch_feature_sets(package)?;
 
     for feature_set in feature_sets {
         let mut test_runner = crate::test_runner::TestRunner::new(
